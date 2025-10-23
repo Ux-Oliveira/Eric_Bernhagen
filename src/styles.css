@@ -201,7 +201,7 @@ header#topbar.navbar {
   transform: translateY(0);
 }
 
-/*Contact section*/
+/*Socials section*/
 #contact {
   position: relative;
   height: 100vh;
@@ -260,7 +260,7 @@ header#topbar.navbar {
   background: rgba(255, 255, 255, 0.2);
 }
 
-/*Socials*/
+/*more socials*/
 .socials {
   margin-top: 2rem;
   display: flex;
@@ -380,26 +380,24 @@ header#topbar.navbar {
     text-decoration: none;
 }
 
-/* >>> Modal stacking fixes for audio overlay — appended intentionally, minimal and safe. <<< */
 
-/* ensure overlay always sits above the can icon and other page chrome */
 #audio-overlay {
-  z-index: 9999; /* much higher than other elements */
+  z-index: 9999; /*much higher than other elements to make sure the can element was not intefering with it*/
 }
 
-/* ensure the inner modal content is above the overlay backdrop */
+/*ensuring the inner modal content is above the overlay backdrop*/
 #audio-overlay .overlay-inner {
-  position: relative; /* keeps it on top inside the overlay */
+  position: relative;
   z-index: 10000;
 }
 
-/* explicit ensure visible class enables pointer events and opacity */
 #audio-overlay.visible {
-  pointer-events: all; /* explicit, in case of specificity issues */
+  pointer-events: all;
   opacity: 1;
 }
 
-/* optional safety: make sure can-wrapper isn't higher than the overlay */
+/*again just to make sure the can-wrapper isn't higher than the overlay*/
 .can-wrapper {
-  z-index: 900; /* lower than the overlay */
+  z-index: 900;
 }
+
