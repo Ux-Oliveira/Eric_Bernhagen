@@ -5,7 +5,6 @@
   const canSound = document.getElementById('can-sound');
   const momBtn = document.getElementById('mom-btn');
   const momAudio = document.getElementById('mom-audio');
-  const quickSfx = document.getElementById('quick-sfx');
   const blocksOverlay = document.getElementById('blocks-overlay');
   const stopMotionNav = document.getElementById('stopmotion-btn');
   const blocksStage = document.getElementById('blocks-stage');
@@ -19,6 +18,7 @@
     audioOverlay.classList.remove('visible');
     audioOverlay.setAttribute('aria-hidden', 'true');
     audioOverlay.style.display = 'none'; // hide completely
+    audioOverlay.style.pointerEvents = 'none';
   } else {
     // make sure overlay blocks clicks while visible
     audioOverlay.style.pointerEvents = 'all';
@@ -35,9 +35,10 @@
     localStorage.setItem('audioAllowed', 'true');
 
     // hide overlay safely
-    audioOverlay.style.pointerEvents = 'none';
     audioOverlay.classList.remove('visible');
     audioOverlay.setAttribute('aria-hidden', 'true');
+    audioOverlay.style.pointerEvents = 'none';
+    audioOverlay.style.opacity = '0';
     setTimeout(() => {
       audioOverlay.style.display = 'none';
     }, 300); // match CSS fade-out duration
@@ -115,6 +116,7 @@
       audioOverlay.setAttribute('aria-hidden', 'false');
       audioOverlay.style.pointerEvents = 'all';
       audioOverlay.style.display = 'flex';
+      audioOverlay.style.opacity = '1';
       return;
     }
 
