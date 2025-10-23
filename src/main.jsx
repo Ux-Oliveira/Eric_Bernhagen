@@ -6,7 +6,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const audioOverlay = document.getElementById('audio-overlay');
     const allowBtn = document.getElementById('allow-audio');
     const canIcon = document.getElementById('can-icon');
-    const canSound = document.getElementById('can-sound');
+    // canSound previously came from a DOM <audio>; moved into JS as requested
+    const canSound = new Audio('/canopening.wav');
+    canSound.preload = 'auto';
     const momBtn = document.getElementById('mom-btn');
     const momAudio = document.getElementById('mom-audio');
     const blocksOverlay = document.getElementById('blocks-overlay');
@@ -128,11 +130,33 @@ document.addEventListener('DOMContentLoaded', () => {
         const swapped = '/can_icon_uponclick.svg';
         canIcon.setAttribute('src', swapped);
 
-        if (audioAllowed) {
+        // Attempt to play the can sound. If audio not unlocked yet, try to unlock via AudioContext,
+        // then attempt to play the Audio object. If that still fails, fallback to quickSfx if present.
+        if (canSound) {
           try {
+            // If the overlay hasn't granted audio yet, try to resume/create an AudioContext on this user gesture.
+            if (!audioAllowed) {
+              try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                // Some browsers require resume() on a context created earlier — resume defensively.
+                if (ctx.state === 'suspended' && typeof ctx.resume === 'function') {
+                  await ctx.resume();
+                }
+                // Mark audioAllowed since we had a user gesture
+                audioAllowed = true;
+                try { localStorage.setItem('audioAllowed', 'true'); } catch (e) {}
+                // close context since we only used it to unlock
+                try { ctx.close(); } catch (e) {}
+              } catch (unlockErr) {
+                // ignore — we'll still try to play the Audio object directly
+                console.warn('audio unlock attempt failed', unlockErr);
+              }
+            }
+
             canSound.currentTime = 0;
             await canSound.play();
           } catch (e) {
+            // fallback: try quickSfx (if defined) — preserve original behavior
             try { quickSfx && quickSfx.play(); } catch (e2) {}
           }
         }
