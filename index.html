@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Eric Bernhagen</title>
+
+  <!-- Description -->
+  <meta name="description" content="Stop motion animator and filmmaker Eric Bernhagen brings toys to life with charm, humor, and heart." />
+
+  <!-- Favicon (circle-framed) -->
+  <link rel="icon" href="/icon.png" type="image/png" />
+
+  <!-- Open Graph (Facebook, Instagram, WhatsApp, etc.) -->
+  <meta property="og:title" content="Eric Bernhagen" />
+  <meta property="og:description" content="Stop motion animator and filmmaker Eric Bernhagen brings toys to life with charm, humor, and heart." />
+  <meta property="og:image" content="/icon.png" />
+  <meta property="og:url" content="https://yourwebsite.com/" />
+  <meta property="og:type" content="website" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Eric Bernhagen" />
+  <meta name="twitter:description" content="Stop motion animator and filmmaker Eric Bernhagen brings toys to life with charm, humor, and heart." />
+  <meta name="twitter:image" content="/icon.png" />
+
+  <!-- Font Awesome + CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" />
+  <link rel="stylesheet" href="/src/styles.css" />
+
+</head>
+<body>
+
+<div id="audio-overlay" class="overlay visible" aria-hidden="false">
+    <div class="overlay-inner">
+        <h2>Best enjoyed with audio</h2>
+        <p>I swear he won't scream!</p>
+        <button id="allow-audio" class="btn">Sure....</button>
+    </div>
+</div>
+
+<header id="topbar" class="navbar">
+    <div class="nav-left">
+        <div id="eric-name" class="pulse"><a href="https://www.youtube.com/@ericbernhagen" target="_blank">Eric Bernhagen</a></div> 
+    </div>
+    <nav class="nav-right">
+        <a href="#home" class="nav-link">Home</a>
+        <span class="sep">|</span>
+        <a href="#stopmotion" id="stopmotion-btn" class="nav-link">Stop Motion</a>
+        <span class="sep">|</span>
+        <a href="#contact" class="nav-link">Contact</a>
+    </nav>
+</header>
+
+<main id="main">
+
+<!--Home Section-->
+<section id="home" class="section home-section">
+    <div><a href="https://www.youtube.com/watch?v=RmbNC9b5VOY" target="_blank" rel="noopener noreferrer"><video id="peeking" class="bg-video" autoplay muted loop playsinline>
+        <source src="/peeking.mp4" type="video/mp4" />
+    </video></a></div>
+
+    <div class="home-overlay">
+     <div class="can-wrapper">
+        <img id="can-icon" src="/canicon.svg" alt="can icon" class="can-svg" />
+     </div>
+    </div>
+</section>
+
+<!--Stopmotion section-->
+<section id="stopmotion" class="section stopmotion-section">
+    <div class="stopmotion-inner">
+        <div id="blocks-stage" class="blocks-stage" aria-label="Stopmotion blocks stage">
+            <img src="/mainblocks.png" alt="main blocks layout" class="mainblocks" />
+            <div class="blocks-overlay" id="blocks-overlay">
+                <img class="block" id="block1" data-index="1" src="/block1.png" alt="block 1" />
+                <img class="block" id="block2" data-index="2" src="/block2.png" alt="block 2" />
+                <img class="block" id="block3" data-index="3" src="/block3.png" alt="block 3" />
+                <img class="block" id="block4" data-index="4" src="/block4.png" alt="block 4" />
+                <img class="block" id="block5" data-index="5" src="/block5.png" alt="block 5" />
+                <img class="block" id="block6" data-index="6" src="/block6.png" alt="block 6" />
+                <img class="block" id="block7" data-index="7" src="/block7.png" alt="block 7" />
+                <img class="block" id="block8" data-index="8" src="/block8.png" alt="block 8" />
+                <img class="block" id="block9" data-index="9" src="/block9.png" alt="block 9" />
+                <img class="block" id="block10" data-index="10" src="/block10.png" alt="block 10" />
+                <img class="block" id="block11" data-index="11" src="/block11.png" alt="block 11" />
+                <img class="block" id="block12" data-index="12" src="/block12.png" alt="block 12" />
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--Contact section-->
+<section id="contact" class="section contact-section">
+    <div><a href="https://www.youtube.com/watch?v=ng8VJv1DX_Q" target="_blank" rel="noopener noreferrer"><video id="toy-video" class="bg-video" autoplay muted loop playsinline>
+      <source src="/toy_world.mp4" type="video/mp4" />
+    </video></a></div>
+
+    <div class="contact-inner">
+         <h1 class="contact-intro">A stop motion animator with the heart of a filmmaker!</h1>
+    </div>
+    <div class="contact-inner">
+        <h1>Watch Erik's content and help him take care of his <button id="mom-btn" class="mom-btn">mom</button></h1>
+        <h1>Or his mom take care of him</h1>
+        
+        <div class="socials">
+            <a class="social" id="patreon" target="_blank" rel="noopener noreferrer" href="https://www.patreon.com/cw/bernhagen/"><i class="fa-brands fa-patreon" color:"red"></i></a>
+            <!--<a class="social" id="insta" target="_blank" rel="noopener noreferrer" href="https://www.instagram.com/"><i class="fa-brands fa-instagram"></i></a>-->
+            <a class="social" id="x" target="_blank" rel="noopener noreferrer" href="https://x.com/eric_bernhagen/"><i class="fa-brands fa-x-twitter"></i></a>
+            <a class="social" id="youtube" target="_blank" rel="noopener noreferrer" href="https://www.youtube.com/@ericbernhagen"><i class="fa-brands fa-youtube"></i></a>
+        </div>
+        <div class="plug" id="plug"><h7>Website by <a href="https://www.youtube.com/@ricksahuman" target="_blank" rel="noopener noreferrer">Rick´s a Human</a> on <a href="https://www.youtube.com/@ricksahuman" target="_blank" rel="noopener noreferrer">Youtube</a>.</h7></div>
+    </div>
+ </section>
+</main>
+
+<audio id="can-sound" src="/canopening.wav" preload="auto"></audio>
+<audio id="mom-audio" preload="auto"></audio>
+
+<script src="src/main.jsx"></script>
+</body>
+</html>
