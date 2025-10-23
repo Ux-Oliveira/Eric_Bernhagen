@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
         canClickLock = true;
 
         const original = canIcon.getAttribute('src');
-        const swapped = '/canuponclick.png';
+        const swapped = '/caniconuponclick.png';
         canIcon.setAttribute('src', swapped);
 
         //this attempts to play the can sound. If audio is not unlocked, it'll try to unlock via audio context
@@ -234,6 +234,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   })();
 });
+
 
 
 
