@@ -15,36 +15,12 @@
   // check if user already allowed audio
   if (localStorage.getItem('audioAllowed') === 'true') {
     audioAllowed = true;
-    audioOverlay.classList.remove('visible');
-    audioOverlay.setAttribute('aria-hidden', 'true');
     audioOverlay.style.display = 'none'; // hide completely
-    audioOverlay.style.pointerEvents = 'none';
   } else {
-    // make sure overlay blocks clicks while visible
-    audioOverlay.style.pointerEvents = 'all';
     audioOverlay.style.display = 'flex';
   }
 
   allowBtn.addEventListener('click', async () => {
-    try {
-      await unlockAudio();
-    } catch (e) {
-      console.warn('Audio unlock failed:', e);
-    }
-    audioAllowed = true;
-    localStorage.setItem('audioAllowed', 'true');
-
-    // hide overlay safely
-    audioOverlay.classList.remove('visible');
-    audioOverlay.setAttribute('aria-hidden', 'true');
-    audioOverlay.style.pointerEvents = 'none';
-    audioOverlay.style.opacity = '0';
-    setTimeout(() => {
-      audioOverlay.style.display = 'none';
-    }, 300); // match CSS fade-out duration
-  });
-
-  async function unlockAudio() {
     try {
       const ctx = new (window.AudioContext || window.webkitAudioContext)();
       const o = ctx.createOscillator();
@@ -57,15 +33,15 @@
         o.stop();
         ctx.close();
       }, 50);
-    } catch (err) {}
-  }
-
-  // Allow audio if user clicks outside
-  audioOverlay.addEventListener('click', (e) => {
-    if (e.target === audioOverlay) {
-      allowBtn.click();
-      e.stopPropagation(); // prevent clicks from passing through
+    } catch (err) {
+      console.warn('Audio unlock failed', err);
     }
+
+    audioAllowed = true;
+    localStorage.setItem('audioAllowed', 'true');
+
+    // hide overlay immediately
+    audioOverlay.style.display = 'none';
   });
 
   // Can click sound
@@ -112,11 +88,7 @@
     momIndex = (momIndex + 1) % momAudioFiles.length;
 
     if (!audioAllowed) {
-      audioOverlay.classList.add('visible');
-      audioOverlay.setAttribute('aria-hidden', 'false');
-      audioOverlay.style.pointerEvents = 'all';
       audioOverlay.style.display = 'flex';
-      audioOverlay.style.opacity = '1';
       return;
     }
 
