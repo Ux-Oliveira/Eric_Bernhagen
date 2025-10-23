@@ -379,3 +379,27 @@ header#topbar.navbar {
     color: #75706F;
     text-decoration: none;
 }
+
+/* >>> Modal stacking fixes for audio overlay — appended intentionally, minimal and safe. <<< */
+
+/* ensure overlay always sits above the can icon and other page chrome */
+#audio-overlay {
+  z-index: 9999; /* much higher than other elements */
+}
+
+/* ensure the inner modal content is above the overlay backdrop */
+#audio-overlay .overlay-inner {
+  position: relative; /* keeps it on top inside the overlay */
+  z-index: 10000;
+}
+
+/* explicit ensure visible class enables pointer events and opacity */
+#audio-overlay.visible {
+  pointer-events: all; /* explicit, in case of specificity issues */
+  opacity: 1;
+}
+
+/* optional safety: make sure can-wrapper isn't higher than the overlay */
+.can-wrapper {
+  z-index: 900; /* lower than the overlay */
+}
