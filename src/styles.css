@@ -1,0 +1,381 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  scroll-behavior: smooth;
+  background-color: #000;
+  color: #fff;
+  font: 'Montserrat';
+  font-family: 'Montserrat', sans-serif;
+  overflow-x: hidden;
+}
+
+/*navbar*/
+header#topbar.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+}
+
+.nav-left #eric-name {
+  font-weight: 600;
+  font-size: 1.2rem;
+  animation: pulseName 2s infinite;
+  text-decoration: none;
+}
+
+.nav-left #eric-name a {
+    text-decoration: none;
+    color: #fff;
+}
+
+@keyframes pulseName {
+  0%,100% { opacity:1; transform: scale(1); }
+  50% { opacity:0.5; transform: scale(1.15); }
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.nav-link {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  transition: opacity 0.3s ease;
+}
+
+.nav-link:hover {
+  opacity: 0.6;
+}
+
+/*audio overlay*/
+#audio-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+#audio-overlay.visible {
+  opacity: 1;
+  pointer-events: all;
+}
+
+#allow-audio {
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 8px;
+  background-color: #fff;
+  color: #000;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+#allow-audio:hover {
+  background: #ddd;
+}
+
+/*Home section*/
+#home {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+#home video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+/*can icon*/
+.can-wrapper {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 999;
+}
+
+#can-icon {
+  width: 120px;
+  height: auto;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+#can-icon:hover {
+  transform: scale(1.05);
+}
+
+/*Stop motion section*/
+#stopmotion {
+  position: relative;
+  min-height: 50vh;
+  background: #0a0a0a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+#stopmotion h1 {
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  z-index: 2;
+  text-align: center;
+}
+
+#blocks-stage {
+  position: relative;
+  width: 90%;
+  max-width: 800px;
+  aspect-ratio: 16 / 9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.mainblocks {
+  width: 100%;
+  height: auto;
+  display: block;
+  position: relative;
+  z-index: 1;
+}
+
+/*overlay for 12 blocks*/
+#blocks-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+}
+
+/*all 12 blocks aligned exactly on top of mainblocks */
+.block {
+  position: absolute;
+  top: -30px; /*making sure the first one starts slightly delayed*/
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: 100%;
+  height: auto;
+  opacity: 0;
+  transform: translateY(-30px);
+  transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+.block.lay {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/*Contact section*/
+#contact {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#contact video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.contact-inner {
+  position: relative;
+  z-index: 5;
+  text-align: center;
+  color: #fff;
+}
+
+.contact-inner.contact-intro-container {
+  margin-bottom: 2rem;
+}
+
+.contact-inner.contact-main h1 {
+  font-size: 1.5rem;
+  margin: 0.5rem 0;
+}
+
+/*Mom button*/
+#mom-btn {
+  padding: 1rem 2rem;
+  border: 2px solid #fff;
+  background: linear-gradient(45deg, #ff9900, #00ff77);
+  color: #fff;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  font-size: 1.2rem;
+  animation: momPulse 2s infinite;
+}
+
+@keyframes momPulse {
+  0%, 100% { filter: brightness(1); }
+  50% { filter: brightness(1.4); }
+}
+
+#mom-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/*Socials*/
+.socials {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  z-index: 6;
+  position: relative;
+}
+
+.socials a {
+  color: red;
+  font-size: 1.8rem;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.socials #patreon i {
+    color: grey;
+}
+
+.socials #insta i {
+    color: yellow;
+}
+
+.socials #x i {
+    color: black;
+}
+
+
+.socials a:hover {
+  transform: scale(3.1);
+  opacity: 0.8;
+}
+
+.socials p {
+  margin-top: 0.3rem;
+  font-size: 1rem;
+  opacity: 0.8;
+}
+
+/*Responsive adjustments*/
+@media (max-width: 768px) {
+  header#topbar.navbar {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  #can-icon {
+    width: 90px;
+  }
+
+  #stopmotion h1 {
+    font-size: 1.5rem;
+  }
+
+  #mom-btn {
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  .socials p {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  #can-icon {
+    width: 70px;
+  }
+
+  .socials a {
+    font-size: 1.5rem;
+    color: red; 
+ }
+
+  .socials p {
+    font-size: 0.8rem;
+    color: red;
+  }
+}
+
+.contact-inner .contact-intro {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+/*navbar addons for better responsiveness*/
+@media (max-width: 600px) {
+  #stopmotion-btn {
+    position: relative;
+    font-size: 1rem;
+    color: transparent; /*this hides the original text while keeping it assecible*/
+  }
+
+  #stopmotion-btn::after {
+    content: "Motion";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+}
+
+
+.plug h7 {
+    color: #fff;
+    padding: 10px 10px;
+    font-size: 10px;
+}
+
+.plug h7 a {
+    color: #75706F;
+    text-decoration: none;
+}
