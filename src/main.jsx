@@ -1,12 +1,9 @@
-// src/main.jsx
-// (keeps original comments and behavior; makes the audio overlay function as a modal)
-
 document.addEventListener('DOMContentLoaded', () => {
   (function () {
     const audioOverlay = document.getElementById('audio-overlay');
     const allowBtn = document.getElementById('allow-audio');
     const canIcon = document.getElementById('can-icon');
-    // canSound previously came from a DOM <audio>; moved into JS as requested
+    //the can sound wasn't working on html
     const canSound = new Audio('/canopening.mp3');
     canSound.preload = 'auto';
     const momBtn = document.getElementById('mom-btn');
@@ -18,10 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let audioAllowed = false;
     let canClickLock = false;
 
-    // Safety: if audioOverlay or allowBtn missing, bail gracefully
     if (!audioOverlay || !allowBtn) {
-      // Still wire up other features if present
-      // (we don't throw — user wanted minimal changes elsewhere)
       if (canIcon) {
         canIcon.addEventListener('click', async () => {
           if (canClickLock) return;
@@ -44,21 +38,13 @@ document.addEventListener('DOMContentLoaded', () => {
           document.querySelector('#home')?.scrollIntoView({ behavior: 'smooth' });
         });
       }
-      // Return early since overlay/button not available to convert to modal
       return;
     }
-
-    // ---------------- Audio overlay (modal) logic ----------------
-    // We'll treat the overlay as a modal controlled by the 'visible' class.
-    // CSS already defines:
-    //   #audio-overlay { opacity:0; pointer-events:none; ... }
-    //   #audio-overlay.visible { opacity:1; pointer-events:all; ... }
-    // So adding/removing 'visible' shows/hides and controls interactivity.
-
+    
     function openOverlay() {
       audioOverlay.classList.add('visible');
       audioOverlay.setAttribute('aria-hidden', 'false');
-      // trap focus: move focus to the allow button
+      //this allows focus to the allow button
       try { allowBtn.focus(); } catch (e) {}
     }
 
@@ -69,11 +55,11 @@ document.addEventListener('DOMContentLoaded', () => {
       try { localStorage.setItem('audioAllowed', 'true'); } catch (e) {}
     }
 
-    // Check if already allowed (persisted)
+    //now we gotta check if the audio was already allowed on the device
     try {
       if (localStorage.getItem('audioAllowed') === 'true') {
         audioAllowed = true;
-        // ensure overlay is hidden
+        //ensures overlay is hidden
         audioOverlay.classList.remove('visible');
         audioOverlay.setAttribute('aria-hidden', 'true');
       } else {
@@ -81,15 +67,14 @@ document.addEventListener('DOMContentLoaded', () => {
         openOverlay();
       }
     } catch (err) {
-      // localStorage unavailable -> show overlay but don't crash
+      //this will catch the fact you didn't allow audio and the overlay will still appear
       openOverlay();
     }
 
-    // Clicking the allow button
+    //upon clicking the allow button
     allowBtn.addEventListener('click', async (e) => {
-      e.stopPropagation(); // prevent overlay click from interfering
+      e.stopPropagation(); //I had to add this cause I thought the overlay was interfering with other functions
       try {
-        // attempt to unlock audio context
         const ctx = new (window.AudioContext || window.webkitAudioContext)();
         const o = ctx.createOscillator();
         const g = ctx.createGain();
@@ -104,23 +89,22 @@ document.addEventListener('DOMContentLoaded', () => {
       hideOverlay();
     });
 
-    // Clicking anywhere on overlay background should also close the modal
+    //jnow this will make sure clicking anywhere on overlay background should also close the allow audio modal
     audioOverlay.addEventListener('click', (e) => {
-      // only treat clicks on the backdrop (overlay itself) as dismissal
+      //but it won't _blank the link behind the modal, in the video being displayed
       if (e.target === audioOverlay) {
-        // simulate clicking allow button so same code path runs
         allowBtn.click();
       }
     });
 
-    // Make Escape key close the modal (standard modal behavior)
+    //escape key closes the modal
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && audioOverlay.classList.contains('visible')) {
         allowBtn.click();
       }
     });
 
-    // ---------------- Can click sound ----------------
+    //I had to move the can clicking sound to the main.jsx
     if (canIcon) {
       canIcon.addEventListener('click', async () => {
         if (canClickLock) return;
@@ -130,25 +114,23 @@ document.addEventListener('DOMContentLoaded', () => {
         const swapped = '/can_icon_uponclick.svg';
         canIcon.setAttribute('src', swapped);
 
-        // Attempt to play the can sound. If audio not unlocked yet, try to unlock via AudioContext,
-        // then attempt to play the Audio object. If that still fails, fallback to quickSfx if present.
+        //this attempts to play the can sound. If audio is not unlocked, it'll try to unlock via audio context
         if (canSound) {
           try {
-            // If the overlay hasn't granted audio yet, try to resume/create an AudioContext on this user gesture.
+            //audio context created upon user not allowing audio
             if (!audioAllowed) {
               try {
                 const ctx = new (window.AudioContext || window.webkitAudioContext)();
-                // Some browsers require resume() on a context created earlier — resume defensively.
+                //some browsers require resume() on a context created earlier. So...
                 if (ctx.state === 'suspended' && typeof ctx.resume === 'function') {
                   await ctx.resume();
                 }
-                // Mark audioAllowed since we had a user gesture
+                //this will mark audioAllowed since we had a user say yes
                 audioAllowed = true;
                 try { localStorage.setItem('audioAllowed', 'true'); } catch (e) {}
-                // close context since we only used it to unlock
                 try { ctx.close(); } catch (e) {}
               } catch (unlockErr) {
-                // ignore — we'll still try to play the Audio object directly
+                //if ignored it'll still try to play the audio object directly
                 console.warn('audio unlock attempt failed', unlockErr);
               }
             }
@@ -156,7 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
             canSound.currentTime = 0;
             await canSound.play();
           } catch (e) {
-            // fallback: try quickSfx (if defined) — preserve original behavior
+            //fallback not totally necessary
             try { quickSfx && quickSfx.play(); } catch (e2) {}
           }
         }
@@ -170,7 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // ---------------- Mom button audio cycle ----------------
+    //mom audio button
     let momIndex = 0;
     const momAudioFiles = [
       '/mom.mp3',
@@ -199,7 +181,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // ---------------- Stop motion sequence (continuous looping) ----------------
+   //stop motion sequence
     const blocks = Array.from(document.querySelectorAll('.block'));
     blocks.sort((a, b) => Number(a.dataset.index) - Number(b.dataset.index));
 
@@ -213,12 +195,11 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    // only set up interval if there are blocks
     if (blocks.length > 0) {
       setInterval(playStopMotionSequence, 3000);
     }
 
-    // ---------------- Navigation ----------------
+    //navbar
     if (stopMotionNav) {
       stopMotionNav.addEventListener('click', (e) => {
         e.preventDefault();
@@ -237,14 +218,14 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
-    // ---------------- Blocks stage YouTube ----------------
+    //this makes sure clicking on any of the block pngs will on top the main block png will _blank a link
     if (blocksStage) {
       blocksStage.addEventListener('click', () => {
         window.open('https://www.youtube.com/watch?v=8JGcD7ExDtA&t', '_blank', 'noopener');
       });
     }
 
-    // ---------------- Keyboard trigger for mom button ----------------
+    //trigger for eric's mom button
     if (momBtn) {
       momBtn.addEventListener('keyup', (e) => {
         if (e.key === 'Enter' || e.key === ' ') momBtn.click();
@@ -253,4 +234,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
   })();
 });
+
 
