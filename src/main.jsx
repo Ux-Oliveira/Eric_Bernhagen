@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const allowBtn = document.getElementById('allow-audio');
     const canIcon = document.getElementById('can-icon');
     // canSound previously came from a DOM <audio>; moved into JS as requested
-    const canSound = new Audio('/canopening.wav');
+    const canSound = new Audio('/canopening.mp3');
     canSound.preload = 'auto';
     const momBtn = document.getElementById('mom-btn');
     const momAudio = document.getElementById('mom-audio');
@@ -253,3 +253,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
   })();
 });
+
