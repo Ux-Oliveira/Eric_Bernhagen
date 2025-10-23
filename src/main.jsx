@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
           if (canClickLock) return;
           canClickLock = true;
           const original = canIcon.getAttribute('src');
-          const swapped = '/can_icon_uponclick.svg';
+          const swapped = '/caniconuponclick.png';
           canIcon.setAttribute('src', swapped);
           if (audioAllowed) {
             try {
@@ -234,5 +234,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   })();
 });
+
 
 
