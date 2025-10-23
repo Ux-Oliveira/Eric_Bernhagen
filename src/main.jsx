@@ -149,8 +149,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // ---------------- Mom button audio cycle ----------------
     let momIndex = 0;
     const momAudioFiles = [
-      '/mom.mp3', '/mom2.mp3', '/mom3.mp3',
-      '/mom4.mp3', '/mom5.mp3', '/mom6.mp3',
+      '/mom.mp3',
+      '/mom2.mp3',
+      '/mom3.mp3',
+      '/mom4.mp3',
+      '/mom5.mp3',
+      '/mom6.mp3',
     ];
 
     if (momBtn) {
@@ -225,3 +229,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
   })();
 });
+
