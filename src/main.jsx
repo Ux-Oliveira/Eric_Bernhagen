@@ -12,15 +12,24 @@
   let audioAllowed = false;
   let canClickLock = false;
 
-  // check if user already allowed audio
+  // ---------------- Audio overlay logic ----------------
+  function hideOverlay() {
+    audioOverlay.style.display = 'none';
+    audioAllowed = true;
+    localStorage.setItem('audioAllowed', 'true');
+  }
+
+  // Check if already allowed
   if (localStorage.getItem('audioAllowed') === 'true') {
     audioAllowed = true;
-    audioOverlay.style.display = 'none'; // hide completely
+    audioOverlay.style.display = 'none';
   } else {
     audioOverlay.style.display = 'flex';
   }
 
-  allowBtn.addEventListener('click', async () => {
+  // Clicking the allow button
+  allowBtn.addEventListener('click', async (e) => {
+    e.stopPropagation(); // prevent overlay click from interfering
     try {
       const ctx = new (window.AudioContext || window.webkitAudioContext)();
       const o = ctx.createOscillator();
@@ -29,22 +38,21 @@
       o.connect(g);
       g.connect(ctx.destination);
       o.start(0);
-      setTimeout(() => {
-        o.stop();
-        ctx.close();
-      }, 50);
+      setTimeout(() => { o.stop(); ctx.close(); }, 50);
     } catch (err) {
       console.warn('Audio unlock failed', err);
     }
-
-    audioAllowed = true;
-    localStorage.setItem('audioAllowed', 'true');
-
-    // hide overlay immediately
-    audioOverlay.style.display = 'none';
+    hideOverlay();
   });
 
-  // Can click sound
+  // Clicking anywhere on overlay background
+  audioOverlay.addEventListener('click', (e) => {
+    if (e.target === audioOverlay) {
+      allowBtn.click();
+    }
+  });
+
+  // ---------------- Can click sound ----------------
   canIcon.addEventListener('click', async () => {
     if (canClickLock) return;
     canClickLock = true;
@@ -58,9 +66,7 @@
         canSound.currentTime = 0;
         await canSound.play();
       } catch (e) {
-        try {
-          quickSfx && quickSfx.play();
-        } catch (e2) {}
+        try { quickSfx && quickSfx.play(); } catch (e2) {}
       }
     }
 
@@ -72,15 +78,11 @@
     document.querySelector('#home').scrollIntoView({ behavior: 'smooth' });
   });
 
-  // Mom button audio cycle
+  // ---------------- Mom button audio cycle ----------------
   let momIndex = 0;
   const momAudioFiles = [
-    '/mom.mp3',
-    '/mom2.mp3',
-    '/mom3.mp3',
-    '/mom4.mp3',
-    '/mom5.mp3',
-    '/mom6.mp3',
+    '/mom.mp3', '/mom2.mp3', '/mom3.mp3',
+    '/mom4.mp3', '/mom5.mp3', '/mom6.mp3',
   ];
 
   momBtn.addEventListener('click', async () => {
@@ -94,14 +96,12 @@
 
     momAudio.src = src;
     momAudio.currentTime = 0;
-    try {
-      await momAudio.play();
-    } catch (e) {
+    try { await momAudio.play(); } catch (e) {
       console.warn('mom audio play prevented', e);
     }
   });
 
-  // Stop motion sequence (continuous looping)
+  // ---------------- Stop motion sequence ----------------
   const blocks = Array.from(document.querySelectorAll('.block'));
   blocks.sort((a, b) => Number(a.dataset.index) - Number(b.dataset.index));
 
@@ -115,16 +115,14 @@
     }
   }
 
-  // continuous looping animation every 3s
   setInterval(playStopMotionSequence, 3000);
 
-  // Scroll to stopmotion on nav click (no YouTube)
+  // ---------------- Navigation ----------------
   stopMotionNav.addEventListener('click', (e) => {
     e.preventDefault();
     document.querySelector('#stopmotion').scrollIntoView({ behavior: 'smooth' });
   });
 
-  // smooth scroll for all nav links
   document.querySelectorAll('.nav-link').forEach((a) => {
     a.addEventListener('click', (ev) => {
       const href = a.getAttribute('href');
@@ -136,13 +134,14 @@
     });
   });
 
-  // make clicking the stage open YouTube
+  // ---------------- Blocks stage YouTube ----------------
   blocksStage.addEventListener('click', () => {
     window.open('https://www.youtube.com/watch?v=8JGcD7ExDtA&t', '_blank', 'noopener');
   });
 
-  // keyboard trigger for mom button
+  // ---------------- Keyboard trigger for mom button ----------------
   momBtn.addEventListener('keyup', (e) => {
     if (e.key === 'Enter' || e.key === ' ') momBtn.click();
   });
+
 })();
